@@ -6,8 +6,10 @@
 
 struct CPU
 {
-    struct Registers registers;
+    struct Registers *registers;
 };
+
+extern struct CPU cpu;
 
 void fetch(struct CPU *cpu);
 void decode(struct CPU *cpu);

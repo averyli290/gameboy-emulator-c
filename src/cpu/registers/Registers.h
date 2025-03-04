@@ -45,17 +45,19 @@ struct Registers
     unsigned short pc;
 };
 
-void zeroRegisters(struct Registers *registers);
-void setZFlag(struct Registers *registers, bool value);
-void setNFlag(struct Registers *registers, bool value);
-void setHFlag(struct Registers *registers, bool value);
-void setCFlag(struct Registers *registers, bool value);
+extern struct Registers registers;
 
-unsigned char *getPointer_r8(struct Registers *registers, unsigned char placeholder);
-unsigned char *getPointer_r16(struct Registers *registers, unsigned char placeholder);
-unsigned char *getPointer_r16stk(struct Registers *registers, unsigned char placeholder);
-unsigned char *getPointer_r16mem(struct Registers *registers, unsigned char placeholder);
-unsigned char *getPointer_cond(struct Registers *registers, unsigned char placeholder);
+void zeroRegisters();
+void setZFlag(bool value);
+void setNFlag(bool value);
+void setHFlag(bool value);
+void setCFlag(bool value);
+
+unsigned char *getPointer_r8(unsigned char placeholder);
+unsigned char *getPointer_r16(unsigned char placeholder);
+unsigned char *getPointer_r16stk(unsigned char placeholder);
+unsigned char *getPointer_r16mem(unsigned char placeholder);
+unsigned char *getPointer_cond(unsigned char placeholder);
 
 // char getA(struct Registers *registers);
 // char getB(struct Registers *registers);
