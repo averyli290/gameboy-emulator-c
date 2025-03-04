@@ -9,8 +9,8 @@ struct Registers
     {
         struct
         {
-            unsigned char a;
             unsigned char f;
+            unsigned char a;
         };
         unsigned short af;
     };
@@ -18,8 +18,8 @@ struct Registers
     {
         struct
         {
-            unsigned char b;
             unsigned char c;
+            unsigned char b;
         };
         unsigned short bc;
     };
@@ -27,8 +27,8 @@ struct Registers
     {
         struct
         {
-            unsigned char d;
             unsigned char e;
+            unsigned char d;
         };
         unsigned short de;
     };
@@ -36,8 +36,8 @@ struct Registers
     {
         struct
         {
-            unsigned char h;
             unsigned char l;
+            unsigned char h;
         };
         unsigned short hl;
     };
@@ -47,11 +47,46 @@ struct Registers
 
 extern struct Registers registers;
 
+// Helper macros
+#define A_PTR (&registers.a)
+#define A_VAL registers.a
+#define B_PTR (&registers.b)
+#define B_VAL registers.b
+#define C_PTR (&registers.c)
+#define C_VAL registers.c
+#define D_PTR (&registers.d)
+#define D_VAL registers.d
+#define E_PTR (&registers.e)
+#define E_VAL registers.e
+#define F_PTR (&registers.f)
+#define F_VAL registers.f
+#define H_PTR (&registers.h)
+#define H_VAL registers.h
+#define L_PTR (&registers.l)
+#define L_VAL registers.l
+
+#define AF_PTR (&registers.af)
+#define AF_VAL registers.af
+#define BC_PTR (&registers.bc)
+#define BC_VAL registers.bc
+#define DE_PTR (&registers.de)
+#define DE_VAL registers.de
+#define HL_PTR (&registers.hl)
+#define HL_VAL registers.hl
+#define SP_PTR (&registers.sp)
+#define SP_VAL registers.sp
+#define PC_PTR (&registers.pc)
+#define PC_VAL registers.pc
+
+
+
 void zeroRegisters();
 void setZFlag(bool value);
 void setNFlag(bool value);
 void setHFlag(bool value);
 void setCFlag(bool value);
+
+void printRegisters();
 
 unsigned char *getPointer_r8(unsigned char placeholder);
 unsigned char *getPointer_r16(unsigned char placeholder);
@@ -71,5 +106,6 @@ unsigned char *getPointer_cond(unsigned char placeholder);
 // short getBC(struct Registers *registers);
 // short getDE(struct Registers *registers);
 // short getHL(struct Registers *registers);
+
 
 #endif

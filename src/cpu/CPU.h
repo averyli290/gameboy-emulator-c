@@ -11,8 +11,10 @@ struct CPU
 
 extern struct CPU cpu;
 
-void fetch(struct CPU *cpu);
-void decode(struct CPU *cpu);
-void execute(struct CPU *cpu);
+unsigned char nextToken();
+unsigned char nextNextToken();
+void fetch();
+void decode();
+void execute(unsigned char opcode);
 
 #endif

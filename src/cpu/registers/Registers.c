@@ -1,5 +1,7 @@
 #include "Registers.h"
+
 #include <stdbool.h>
+#include <stdio.h>
 
 void zeroRegisters()
 {
@@ -29,4 +31,11 @@ void setHFlag(bool value)
 void setCFlag(bool value)
 {
     registers.f &= value << 4;
+}
+
+void printRegisters() {
+    printf("A: 0x%02X, F: 0x%02X\n", registers.a, registers.f);
+    printf("B: 0x%02X, C: 0x%02X\n", registers.b, registers.c);
+    printf("D: 0x%02X, E: 0x%02X\n", registers.d, registers.e);
+    printf("H: 0x%02X, L: 0x%02X\n", registers.h, registers.l);
 }
