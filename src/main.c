@@ -2,6 +2,7 @@
 #include "CPU.h"
 #include "Registers.h"
 #include "Memory.h"
+#include "ArithmeticUtils.h"
 
 int main()
 {
@@ -28,11 +29,21 @@ int main()
     // printf("CPU.l: 0x%02X\n", registers.l);
     // ld_r8_r8(0x00, mem + registers.hl, &registers.a);
     // printf("Memory.l: 0x%04X\n", mem[registers.hl]);
-    zeroRegisters(registers);
-    execute(0x01);
-    *A_PTR = 0x02;
-    printRegisters();
-    *A_PTR = 0x08;
-    printf("A_VAL: 0x%02X\n", A_VAL);
-    printRegisters();
+
+    // zeroRegisters(registers);
+    // execute(0x01);
+    // *A_PTR = 0x02;
+    // printRegisters();
+    // *A_PTR = 0x08;
+    // printf("A_VAL: 0x%02X\n", A_VAL);
+    // printRegisters();
+
+    
+    unsigned char b1 = 0xCC;
+    unsigned char b2 = 0x43;
+    struct ByteALUResult res = overflowingAddByte(b1, b2);
+    printf("0x%02X + 0x%02X = 0x%02X\n", b1, b2, res.value);
+    printf("Z: %d, N: %d, H: %d, C: %d\n", res.z, res.n, res.h, res.c);
+
+
 }

@@ -7,9 +7,11 @@ All ALU op function implmentations.
 #include "Memory.h"
 
 // 16 bit arithmetic
-void inc_r16(unsigned char opcode, unsigned short* r16);
-void dec_r16(unsigned char opcode, unsigned short* r16);
-void add_hl_r16(unsigned char opcode, unsigned short* r16);
+void inc_r16(unsigned char opcode, unsigned short* r16) { *r16 += 1; }
+void dec_r16(unsigned char opcode, unsigned short* r16) { *r16 -= 1; }
+void add_hl_r16(unsigned char opcode, unsigned short* r16) {
+
+}
 void add_sp_imm8(unsigned char opcode, unsigned char imm8);
 
 // 8 bit arithmetic

@@ -1,7 +1,7 @@
 # https://stackoverflow.com/questions/14589614/make-recursive-all-c-files
 
 CC = gcc
-CFLAGS = -c -Wall -g -Os -Isrc/cpu -Isrc/cpu/registers -Isrc/cpu/load -Isrc/memory
+CFLAGS = -c -Wall -g -Os -Isrc/cpu -Isrc/cpu/registers -Isrc/cpu/load -Isrc/memory -Isrc/alu -Isrc/util -Isrc/bus
 LD = $(CC)
 
 TARGET = bin
