@@ -15,22 +15,42 @@ void zeroRegisters(struct Registers* registers)
 
 void setZFlag(struct Registers* registers, bool value)
 {
-    registers->f &= value << 7;
+    registers->f |= value << Z_FLAG_POS;
 }
 
 void setNFlag(struct Registers* registers, bool value)
 {
-    registers->f &= value << 6;
+    registers->f |= value << N_FLAG_POS;
 }
 
 void setHFlag(struct Registers* registers, bool value)
 {
-    registers->f &= value << 5;
+    registers->f |= value << H_FLAG_POS;
 }
 
 void setCFlag(struct Registers* registers, bool value)
 {
-    registers->f &= value << 4;
+    registers->f |= value << C_FLAG_POS;
+}
+
+bool getZFlag(struct Registers* registers)
+{
+    return (registers->f >> Z_FLAG_POS) & 0b1;
+}
+
+bool getNFlag(struct Registers* registers)
+{
+    return (registers->f >> N_FLAG_POS) & 0b1;
+}
+
+bool getHFlag(struct Registers* registers)
+{
+    return (registers->f >> H_FLAG_POS) & 0b1;
+}
+
+bool getCFlag(struct Registers* registers)
+{
+    return (registers->f >> C_FLAG_POS) & 0b1;
 }
 
 void printRegisters(struct Registers* registers) {
@@ -38,4 +58,11 @@ void printRegisters(struct Registers* registers) {
     printf("B: 0x%02X, C: 0x%02X\n", registers->b, registers->c);
     printf("D: 0x%02X, E: 0x%02X\n", registers->d, registers->e);
     printf("H: 0x%02X, L: 0x%02X\n", registers->h, registers->l);
+}
+
+void setZNHCFlags(struct Registers* registers, bool z, bool n, bool h, bool c) {
+    registers->f |= z << Z_FLAG_POS;
+    registers->f |= n << N_FLAG_POS;
+    registers->f |= h << H_FLAG_POS;
+    registers->f |= c << C_FLAG_POS;
 }

@@ -17,6 +17,25 @@ struct CPU
 extern struct CPU cpu;
 
 // Helper macros
+#define CPU_REGS cpu.registers
+
+// X_REG used to assigning values to registers
+#define A_REG cpu.registers->a
+#define B_REG cpu.registers->b
+#define C_REG cpu.registers->c
+#define D_REG cpu.registers->d
+#define E_REG cpu.registers->e
+#define F_REG cpu.registers->f
+#define H_REG cpu.registers->h
+#define L_REG cpu.registers->l
+#define AF_REG cpu.registers->af
+#define BC_REG cpu.registers->bc
+#define DE_REG cpu.registers->de
+#define HL_REG cpu.registers->hl
+#define SP_REG cpu.registers->sp
+#define PC_REG cpu.registers->pc
+
+// X_VAL used for accessing values of registers
 #define A_PTR &(cpu.registers->a)
 #define A_VAL cpu.registers->a
 #define B_PTR &(cpu.registers->b)

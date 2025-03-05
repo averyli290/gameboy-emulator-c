@@ -7,6 +7,11 @@ Registers does not have a global; they should never be accessible outside of the
 
 #include <stdbool.h>
 
+#define Z_FLAG_POS 7
+#define N_FLAG_POS 6 
+#define H_FLAG_POS 5
+#define C_FLAG_POS 4
+
 struct Registers
 {
     union
@@ -56,6 +61,11 @@ void setZFlag(struct Registers* registers, bool value);
 void setNFlag(struct Registers* registers, bool value);
 void setHFlag(struct Registers* registers, bool value);
 void setCFlag(struct Registers* registers, bool value);
+bool getZFlag(struct Registers* registers);
+bool getNFlag(struct Registers* registers);
+bool getHFlag(struct Registers* registers);
+bool getCFlag(struct Registers* registers);
+void setZNHCFlags(struct Registers* registers, bool z, bool n, bool h, bool c);
 
 void printRegisters(struct Registers* registers);
 
