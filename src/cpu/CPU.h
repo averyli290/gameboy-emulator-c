@@ -12,6 +12,7 @@ Only one CPU exists (extern), perhaps abstract to more later?
 struct CPU
 {
     struct Registers *registers;
+    unsigned char instruction;
 };
 
 extern struct CPU cpu;
@@ -66,11 +67,11 @@ extern struct CPU cpu;
 #define PC_PTR &(cpu.registers->pc)
 #define PC_VAL cpu.registers->pc
 
-unsigned char nextToken();
-unsigned char nextNextToken();
+unsigned char readByte();
+unsigned short readShort();
 void fetch();
 void decode();
-void execute(unsigned char opcode);
+void execute();
 
 
 #endif

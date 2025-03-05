@@ -46,11 +46,20 @@ int main()
     // printf("0x%02X + 0x%02X = 0x%02X\n", b1, b2, res.value);
     // printf("Z: %d, N: %d, H: %d, C: %d\n", res.z, res.n, res.h, res.c);
 
-    cpu.registers->a = 0x12;
-    cpu.registers->b = 0x02;
-    setCFlag(cpu.registers, 1);
-    adc_a_r8(0x00, B_PTR);
-    printf("cpu.registers->a: 0x%02X\n", cpu.registers->a);
+    // cpu.registers->a = 0x12;
+    // cpu.registers->b = 0x02;
+    // setCFlag(cpu.registers, 1);
+    // adc_a_r8(0x00, B_PTR);
+    // printf("cpu.registers->a: 0x%02X\n", cpu.registers->a);
+
+    loadROM("roms/hello.gb");
+
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 16; j++) {
+            fetch();
+        }
+        printf("\n");
+    }
 
 
 

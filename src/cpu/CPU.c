@@ -7,45 +7,51 @@
 struct Registers registers;
 struct CPU cpu = {&registers};
 
-unsigned char nextToken() {
-    return 0x10;
+unsigned char readByte() {
+    const unsigned char value = getMemByte(cpu.registers->pc);
+    cpu.registers->pc++;
+    return value;
 }
-unsigned short nextTwoToken() {
-    return 0x0100;
+unsigned short readShort() {
+    const unsigned short value = getMemByte(cpu.registers->pc) | (getMemByte(cpu.registers->pc + 1) << 8);
+    cpu.registers->pc += 2;
+    return value;
 }
 void fetch() {
-    // Fetch instruction using program counter...
+    cpu.instruction = readByte();
+    printf("0x%02X ", cpu.instruction);
 }
 void decode() {}
-void execute(unsigned char opcode)
+void execute()
 {
     // opcode = getopcode...
+    unsigned char opcode = cpu.instruction;
     switch (opcode)
     {
         case 0x00: nop(opcode); break;
-        case 0x01: ld_r16_imm16(opcode, BC_PTR, nextTwoToken()); break;
+        case 0x01: ld_r16_imm16(opcode, BC_PTR, readShort()); break;
         case 0x02: ld_r16mem_a(opcode, BC_VAL); break;
         case 0x03: inc_r16(opcode, BC_PTR); break;
         case 0x04: inc_r8(opcode, B_PTR); break;
         case 0x05: dec_r8(opcode, B_PTR); break;
-        case 0x06: ld_r8_imm8(opcode, B_PTR, nextToken()); break;
+        case 0x06: ld_r8_imm8(opcode, B_PTR, readByte()); break;
         case 0x07: break;
-        case 0x08: ld_imm16mem_sp(opcode, nextTwoToken()); break;
+        case 0x08: ld_imm16mem_sp(opcode, readShort()); break;
         case 0x09: add_hl_r16(opcode, BC_PTR); break;
         case 0x0A: ld_a_r16mem(opcode, BC_VAL); break;
         case 0x0B: dec_r16(opcode, BC_PTR); break;
         case 0x0C: inc_r8(opcode, C_PTR); break;
         case 0x0D: dec_r8(opcode, C_PTR); break;
-        case 0x0E: ld_r8_imm8(opcode, C_PTR, nextToken()); break;
+        case 0x0E: ld_r8_imm8(opcode, C_PTR, readByte()); break;
         case 0x0F: break;
 
         case 0x10: break;
-        case 0x11: ld_r16_imm16(opcode, DE_PTR, nextTwoToken()); break;
+        case 0x11: ld_r16_imm16(opcode, DE_PTR, readShort()); break;
         case 0x12: ld_r16mem_a(opcode, DE_VAL); break;
         case 0x13: inc_r16(opcode, DE_PTR); break;
         case 0x14: inc_r8(opcode, D_PTR); break;
         case 0x15: dec_r8(opcode, D_PTR); break;
-        case 0x16: ld_r8_imm8(opcode, D_PTR, nextToken()); break;
+        case 0x16: ld_r8_imm8(opcode, D_PTR, readByte()); break;
         case 0x17: break;
         case 0x18: break;
         case 0x19: add_hl_r16(opcode, DE_PTR); break;
@@ -53,16 +59,16 @@ void execute(unsigned char opcode)
         case 0x1B: dec_r16(opcode, DE_PTR); break;
         case 0x1C: inc_r8(opcode, E_PTR); break;
         case 0x1D: dec_r8(opcode, E_PTR); break;
-        case 0x1E: ld_r8_imm8(opcode, E_PTR, nextToken()); break;
+        case 0x1E: ld_r8_imm8(opcode, E_PTR, readByte()); break;
         case 0x1F: break;
 
         case 0x20: break;
-        case 0x21: ld_r16_imm16(opcode, HL_PTR, nextTwoToken()); break;
+        case 0x21: ld_r16_imm16(opcode, HL_PTR, readShort()); break;
         case 0x22: ld_hlmem_i_a(opcode); break;
         case 0x23: inc_r16(opcode, HL_PTR); break;
         case 0x24: inc_r8(opcode, H_PTR); break;
         case 0x25: dec_r8(opcode, H_PTR); break;
-        case 0x26: ld_r8_imm8(opcode, H_PTR, nextToken()); break;
+        case 0x26: ld_r8_imm8(opcode, H_PTR, readByte()); break;
         case 0x27: daa(opcode); break;
         case 0x28: break;
         case 0x29: add_hl_r16(opcode, HL_PTR); break;
@@ -70,16 +76,16 @@ void execute(unsigned char opcode)
         case 0x2B: dec_r16(opcode, HL_PTR); break;
         case 0x2C: inc_r8(opcode, L_PTR); break;
         case 0x2D: dec_r8(opcode, L_PTR); break;
-        case 0x2E: ld_r8_imm8(opcode, L_PTR, nextToken()); break;
+        case 0x2E: ld_r8_imm8(opcode, L_PTR, readByte()); break;
         case 0x2F: cpl(opcode); break;
 
         case 0x30: break;
-        case 0x31: ld_r16_imm16(opcode, SP_PTR, nextTwoToken()); break;
+        case 0x31: ld_r16_imm16(opcode, SP_PTR, readShort()); break;
         case 0x32: ld_hlmem_d_a(opcode); break;
         case 0x33: inc_r16(opcode, SP_PTR); break;
         case 0x34: inc_hlmem(opcode); break;
         case 0x35: dec_hlmem(opcode); break;
-        case 0x36: ld_hlmem_imm8(opcode, nextToken());
+        case 0x36: ld_hlmem_imm8(opcode, readByte());
         case 0x37: scf(opcode); break;
         case 0x38: break;
         case 0x39: add_hl_r16(opcode, SP_PTR); break;
@@ -87,7 +93,7 @@ void execute(unsigned char opcode)
         case 0x3B: dec_r16(opcode, SP_PTR); break;
         case 0x3C: inc_r8(opcode, A_PTR); break;
         case 0x3D: dec_r8(opcode, A_PTR); break;
-        case 0x3E: ld_r8_imm8(opcode, A_PTR, nextToken()); break;
+        case 0x3E: ld_r8_imm8(opcode, A_PTR, readByte()); break;
         case 0x3F: ccf(opcode); break;
 
         case 0x40: ld_r8_r8(opcode, B_PTR, B_PTR); break;
@@ -232,7 +238,7 @@ void execute(unsigned char opcode)
         case 0xC3: break;
         case 0xC4: break;
         case 0xC5: break;
-        case 0xC6: add_a_imm8(opcode, nextToken()); break;
+        case 0xC6: add_a_imm8(opcode, readByte()); break;
         case 0xC7: break;
         case 0xC8: break;
         case 0xC9: break;
@@ -240,7 +246,7 @@ void execute(unsigned char opcode)
         case 0xCB: break;
         case 0xCC: break;
         case 0xCD: break;
-        case 0xCE: adc_a_imm8(opcode, nextToken()); break;
+        case 0xCE: adc_a_imm8(opcode, readByte()); break;
         case 0xCF: break;        
 
         case 0xD0: break;
@@ -249,7 +255,7 @@ void execute(unsigned char opcode)
         case 0xD3: break;
         case 0xD4: break;
         case 0xD5: break;
-        case 0xD6: sub_a_imm8(opcode, nextToken()); break;
+        case 0xD6: sub_a_imm8(opcode, readByte()); break;
         case 0xD7: break;
         case 0xD8: break;
         case 0xD9: break;
@@ -257,41 +263,41 @@ void execute(unsigned char opcode)
         case 0xDB: break;
         case 0xDC: break;
         case 0xDD: break;
-        case 0xDE: sbc_a_imm8(opcode, nextToken()); break;
+        case 0xDE: sbc_a_imm8(opcode, readByte()); break;
         case 0xDF: break;        
 
-        case 0xE0: ldh_imm8mem_a(opcode, nextToken()); break;
+        case 0xE0: ldh_imm8mem_a(opcode, readByte()); break;
         case 0xE1: break;
         case 0xE2: ldh_cmem_a(opcode); break;
         case 0xE3: break;
         case 0xE4: break;
         case 0xE5: break;
-        case 0xE6: and_a_imm8(opcode, nextToken()); break;
+        case 0xE6: and_a_imm8(opcode, readByte()); break;
         case 0xE7: break;
         case 0xE8: break;
         case 0xE9: break;
-        case 0xEA: ld_imm16mem_a(opcode, nextTwoToken()); break;
+        case 0xEA: ld_imm16mem_a(opcode, readShort()); break;
         case 0xEB: break;
         case 0xEC: break;
         case 0xED: break;
-        case 0xEE: xor_a_imm8(opcode, nextToken()); break;
+        case 0xEE: xor_a_imm8(opcode, readByte()); break;
         case 0xEF: break;
 
-        case 0xF0: ldh_a_imm8mem(opcode, nextToken()); break;
+        case 0xF0: ldh_a_imm8mem(opcode, readByte()); break;
         case 0xF1: break;
         case 0xF2: ldh_a_cmem(opcode); break;
         case 0xF3: break;
         case 0xF4: break;
         case 0xF5: break;
-        case 0xF6: or_a_imm8(opcode, nextToken()); break;
+        case 0xF6: or_a_imm8(opcode, readByte()); break;
         case 0xF7: break;
         case 0xF8: break;
         case 0xF9: break;
-        case 0xFA: ld_a_imm16mem(opcode, nextTwoToken()); break;
+        case 0xFA: ld_a_imm16mem(opcode, readShort()); break;
         case 0xFB: break;
         case 0xFC: break;
         case 0xFD: break;
-        case 0xFE: cp_a_imm8(opcode, nextToken()); break;
+        case 0xFE: cp_a_imm8(opcode, readByte()); break;
         case 0xFF: break;        
 
 

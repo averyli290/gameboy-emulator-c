@@ -197,8 +197,8 @@ void daa(unsigned char opcode) {
         if (getCFlag(CPU_REGS)) { adjustment += 0x60; }
         A_REG -= adjustment;
     } else {
-        if (getHFlag(CPU_REGS) || A_VAL & 0x0F > 0x09) {adjustment += 0x06; }
-        if (getCFlag(CPU_REGS) || A_VAL > 0x99) {
+        if (getHFlag(CPU_REGS) || ((A_VAL & 0x0F) > 0x09)) { adjustment += 0x06; }
+        if (getCFlag(CPU_REGS) || (A_VAL > 0x99)) {
             adjustment += 0x60;
             setCFlag(CPU_REGS, 1);
         }
@@ -218,6 +218,6 @@ void scf(unsigned char opcode) {
 void ccf(unsigned char opcode) {
     setNFlag(CPU_REGS, 0);
     setHFlag(CPU_REGS, 0);
-    setCFlag(CPU_REGS, ~getCFlag(CPU_REGS));
+    setCFlag(CPU_REGS, !getCFlag(CPU_REGS));
 }
 

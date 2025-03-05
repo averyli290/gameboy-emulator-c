@@ -11,7 +11,7 @@ struct Bus {
 };
 
 void setAddress(struct Bus* bus, unsigned short address);
-void writeByte(struct Bus* bus, char value);
-unsigned char readByte();
+void writeBusByte(struct Bus* bus, char value);
+unsigned char readBusByte();
 
 #endif
